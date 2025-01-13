@@ -2,6 +2,7 @@
 const inputField = document.getElementById('inputField');
 const addButton = document.getElementById('addButton');
 const itemList = document.getElementById('itemList');
+const saveMe = document.getElementById('save');
 
 // Add an event listener to the button
 addButton.addEventListener('click', () => {
@@ -48,3 +49,22 @@ inputField.addEventListener('keydown', (event) => {
         addButton.click(); // Simulate a button click
     }
 });
+
+saveMe.addEventListener('click', () => {
+    const ul = document.getElementById('itemlist');
+    const items = Array.from(ul.children).map(li => li.textContent); // Extract text from <li> elements
+    localStorage.setItem('listItems', JSON.stringify(items)); // Save as JSON string
+    console.log('List saved:', items);
+})
+
+function load() {
+    const savedItems = JSON.parse(localStorage.getItem('listItems')) || []; // Retrieve and parse JSON
+    const ul = document.getElementById('itemlist');
+    ul.innerHTML = ''; // Clear current <li> elements
+    savedItems.forEach(item => {
+      const li = document.createElement('li'); // Create a new <li> element
+      li.textContent = item;
+      ul.appendChild(li); // Append to the <ul>
+    });
+    console.log('List loaded:', savedItems);
+};
